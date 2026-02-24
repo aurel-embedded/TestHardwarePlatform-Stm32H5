@@ -16,7 +16,7 @@ UART_HandleTypeDef console_uartHdl;
 
 
 #ifdef MODE_THW
-volatile uint8_t console_rxBuffer[CONSOLE_RX_BUF_SIZE + 1];
+char console_rxBuffer[CONSOLE_RX_BUF_SIZE + 1];
 volatile uint8_t rx_char = 0;
 #endif //MODE_THW
 

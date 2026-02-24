@@ -20,7 +20,7 @@ HAL_StatusTypeDef THW_printf(const char *fmt, ...);
 #ifdef MODE_THW
 
 #define CONSOLE_RX_BUF_SIZE 10
-extern volatile uint8_t console_rxBuffer[CONSOLE_RX_BUF_SIZE + 1];
+extern char console_rxBuffer[CONSOLE_RX_BUF_SIZE + 1];
 bool console_manageRx(void);
 
 #endif //MODE_THW

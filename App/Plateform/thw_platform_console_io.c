@@ -5,33 +5,43 @@
  *      Author: AurelienPajadon
  */
 
-#include <string.h>
-#include <TestHardwareCore/interfaces/thw_io_if.h>
+/*
+ * thw_platform_console_io.c
+ */
+
+#include "thw_platform_console_io.h"
 #include "thw_platform_transport_uart.h"
-#include "thw_platform_console_view.h"
+#include "thw_transport_if.h"
+
+#include <string.h>
+
+#define CONSOLE_RX_BUF_SIZE 128
 
 static thw_transport_if_t* transport = NULL;
 
+static char   lineBuffer[CONSOLE_RX_BUF_SIZE];
+static size_t lineIndex = 0;
+
 //------------------------------------------------------------------------------
-/// \brief IO init (console + transport)
+/// \brief IO init (transport + console state)
 //------------------------------------------------------------------------------
 static bool console_io_init(void)
 {
     transport = thw_platform_transport_uart_getInterface();
 
-	if(	transport == NULL ||
-		transport->init == NULL ||
-		transport->write == NULL ||
-		transport->read == NULL ||
-		transport->deinit == NULL ||
-		transport->flush == NULL)
+    if (transport == NULL ||
+        transport->init == NULL ||
+        transport->deinit == NULL ||
+        transport->write == NULL ||
+        transport->read == NULL)
+    {
         return false;
+    }
 
     if (!transport->init())
         return false;
 
-    thw_console_init(transport);
-
+    lineIndex = 0;
     return true;
 }
 
@@ -40,23 +50,63 @@ static void console_io_deinit(void)
 {
     if (transport && transport->deinit)
         transport->deinit();
+
+    transport = NULL;
+    lineIndex = 0;
 }
 
 //------------------------------------------------------------------------------
-static bool console_io_readLine(char* buffer, size_t maxLen)
+/// \brief Read a full line (echo enabled)
+//------------------------------------------------------------------------------
+static bool console_io_readLine(char* outLine, size_t maxLen)
 {
-    return thw_console_pollLine(buffer, maxLen);
+    if (transport == NULL || outLine == NULL || maxLen < 2)
+        return false;
+
+    uint8_t byte;
+
+    while (transport->read(&byte, 1) == 1)
+    {
+        // Echo
+        transport->write(&byte, 1);
+
+        if (byte == '\r' || byte == '\n')
+        {
+            if (lineIndex == 0)
+                continue;
+
+            size_t copyLen = (lineIndex < (maxLen - 1)) ? lineIndex : (maxLen - 1);
+
+            memcpy(outLine, lineBuffer, copyLen);
+            outLine[copyLen] = '\0';
+
+            lineIndex = 0;
+            return true;
+        }
+
+        if (lineIndex < (CONSOLE_RX_BUF_SIZE - 1))
+        {
+            lineBuffer[lineIndex++] = (char)byte;
+        }
+        else
+        {
+            // Overflow reset
+            lineIndex = 0;
+        }
+    }
+
+    return false;
 }
 
 //------------------------------------------------------------------------------
 static void console_io_write(const char* text)
 {
-    if (transport)
-        transport->write((const uint8_t*)text, strlen(text));
+    if (transport == NULL || text == NULL)
+        return;
+
+    transport->write((const uint8_t*)text, strlen(text));
 }
 
-//------------------------------------------------------------------------------
-/// \brief IO interface instance
 //------------------------------------------------------------------------------
 static thw_io_if_t console_io =
 {
@@ -66,6 +116,7 @@ static thw_io_if_t console_io =
     .write    = console_io_write
 };
 
+//------------------------------------------------------------------------------
 thw_io_if_t* thw_platform_console_io_getInterface(void)
 {
     return &console_io;

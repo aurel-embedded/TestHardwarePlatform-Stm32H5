@@ -1,0 +1,3 @@
+[submodule "External/TestHardwareCore"]
+	path = External/TestHardwareCore
+	url = https://github.com/aurel-embedded/TestHardwareCore.git

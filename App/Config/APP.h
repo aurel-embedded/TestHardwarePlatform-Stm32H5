@@ -13,11 +13,7 @@
 extern "C" {
 #endif
 
-#ifndef MODE_THW
-static const uint8_t 	APP_SoftwareReference[]	= 	"Alpha - Plug - NTZ";
-#else
-static const uint8_t 	APP_SoftwareReference[]	= 	"Alpha - Plug - NTZ - THW";
-#endif
+static const uint8_t 	APP_SoftwareReference[]	= 	"Testing - THW";
 static const uint8_t 	APP_SoftwareVersion[] = 	"0.0.1";
 
 

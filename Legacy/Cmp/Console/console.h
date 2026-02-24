@@ -14,7 +14,7 @@
 
 HAL_StatusTypeDef console_init(void);
 HAL_StatusTypeDef console_deinit(void);
-HAL_StatusTypeDef console_printf(const char *fmt, ...);
+HAL_StatusTypeDef THW_printf(const char *fmt, ...);
 
 
 #ifdef MODE_THW

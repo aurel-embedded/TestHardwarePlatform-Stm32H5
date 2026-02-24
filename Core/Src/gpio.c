@@ -71,8 +71,6 @@
      PC10   ------> SDMMC1_D2
      PA11   ------> USB_DM
      PA13(JTMS/SWDIO)   ------> DEBUG_JTMS-SWDIO
-     PA10   ------> USART1_RX
-     PA9   ------> USART1_TX
      PF0   ------> FMC_A0
      PI10   ------> ETH_RX_ER
      PC9   ------> SDMMC1_D1
@@ -80,6 +78,7 @@
      PA8   ------> S_TIM1_CH1
      PC7   ------> FMC_NE1
      PH0-OSC_IN(PH0)   ------> RCC_OSC_IN
+     PH1-OSC_OUT(PH1)   ------> RCC_OSC_OUT
      PF10   ------> OCTOSPI1_CLK
      PD15   ------> FMC_D1_DA1
      PG6   ------> OCTOSPI1_NCS
@@ -163,6 +162,12 @@ void MX_GPIO_Init(void)
                           |STMOD_12_Pin|STMOD_19_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOI, LED_GREEN_Pin|LED_ORANGE_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, LED_RED_Pin|LED_BLUE_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(STMOD_17_GPIO_Port, STMOD_17_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -213,8 +218,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF12_FMC;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LCD_BL_CTRL_Pin AUDIO_NRST_Pin */
-  GPIO_InitStruct.Pin = LCD_BL_CTRL_Pin|AUDIO_NRST_Pin;
+  /*Configure GPIO pins : LCD_BL_CTRL_Pin LED_GREEN_Pin LED_ORANGE_Pin AUDIO_NRST_Pin */
+  GPIO_InitStruct.Pin = LCD_BL_CTRL_Pin|LED_GREEN_Pin|LED_ORANGE_Pin|AUDIO_NRST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -316,13 +321,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(uSD_DETECT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : STLK_VCP_TX_Pin STLK_VCP_RX_Pin */
-  GPIO_InitStruct.Pin = STLK_VCP_TX_Pin|STLK_VCP_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  /*Configure GPIO pins : LED_RED_Pin LED_BLUE_Pin STMOD_17_Pin */
+  GPIO_InitStruct.Pin = LED_RED_Pin|LED_BLUE_Pin|STMOD_17_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LCD_A0_RS_Pin */
   GPIO_InitStruct.Pin = LCD_A0_RS_Pin;
@@ -347,13 +351,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
   HAL_GPIO_Init(ARD_D9_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : STMOD_17_Pin */
-  GPIO_InitStruct.Pin = STMOD_17_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(STMOD_17_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC7 */
   GPIO_InitStruct.Pin = GPIO_PIN_7;

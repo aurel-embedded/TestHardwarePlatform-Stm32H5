@@ -131,12 +131,18 @@ void Error_Handler(void);
 #define uSD_DETECT_GPIO_Port GPIOH
 #define USB_FS_N_Pin GPIO_PIN_11
 #define USB_FS_N_GPIO_Port GPIOA
+#define LED_GREEN_Pin GPIO_PIN_9
+#define LED_GREEN_GPIO_Port GPIOI
+#define LED_ORANGE_Pin GPIO_PIN_8
+#define LED_ORANGE_GPIO_Port GPIOI
 #define JTMS_Pin GPIO_PIN_13
 #define JTMS_GPIO_Port GPIOA
 #define STLK_VCP_TX_Pin GPIO_PIN_10
 #define STLK_VCP_TX_GPIO_Port GPIOA
 #define STLK_VCP_RX_Pin GPIO_PIN_9
 #define STLK_VCP_RX_GPIO_Port GPIOA
+#define LED_RED_Pin GPIO_PIN_1
+#define LED_RED_GPIO_Port GPIOF
 #define LCD_A0_RS_Pin GPIO_PIN_0
 #define LCD_A0_RS_GPIO_Port GPIOF
 #define AUDIO_NRST_Pin GPIO_PIN_11
@@ -149,6 +155,8 @@ void Error_Handler(void);
 #define SDIO1_D0_GPIO_Port GPIOC
 #define ARD_D9_Pin GPIO_PIN_8
 #define ARD_D9_GPIO_Port GPIOA
+#define LED_BLUE_Pin GPIO_PIN_4
+#define LED_BLUE_GPIO_Port GPIOF
 #define STMOD_17_Pin GPIO_PIN_3
 #define STMOD_17_GPIO_Port GPIOF
 #define LCD_PWR_ON_Pin GPIO_PIN_6

@@ -1,0 +1,51 @@
+# CubeMX
+.mxproject
+backup_*.ioc
+
+# IAR
+EWARM/settings/
+EWARM/STM32*/
+EWARM/*.dep
+EWARM/*.ewt
+EWARM/*.ipcf
+EWARM/*.custom_argvars
+
+# CubeIDE
+STM32CubeIDE/.settings/
+STM32CubeIDE/Debug/
+STM32CubeIDE/Release/
+
+# Keil
+MDK-ARM/RTE/
+MDK-ARM/STM32*/
+MDK-ARM/DebugConfig/
+MDK-ARM/*.lst
+MDK-ARM/*.out
+MDK-ARM/*vguix.*
+
+# CMake
+build/
+/STM32CubeIDE/THW/*
+/STM32CubeIDE/Debug_Advans/*
+/STM32CubeIDE/THW_Advans/*
+/STM32CubeIDE/Atraltech/Tests/TU/.vs/*
+/STM32CubeIDE/Atraltech/.vs/*
+/STM32CubeIDE/Atraltech/.vscode/*
+/.vscode/*
+/STM32CubeIDE/THW_ExtMemNotLoaded/*
+/Debug/*
+/THW/*
+/Debug - DemoBoard/*
+/Release/*
+/THW - DemoBoard/*
+/node_modules/*
+/PLAN_ACTIONS_US_SM_MISE_SOUS_TENSION.md
+/PLAN_US_SM_01_IDENTIFICATION_PRODUIT.md
+/Plug4G_Prod.code-workspace
+/UART2_DRIVER_README.md
+/watch-md.js
+/package.json
+/package-lock.json
+/ARCHITECTURE_FW_PLUG_NTZ.md
+/ARCHITECTURE_FW_PLUG_NTZ.pdf
+/.settings/*

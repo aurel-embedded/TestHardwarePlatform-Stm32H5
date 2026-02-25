@@ -26,6 +26,7 @@
 #include <TestHardwareCore/THW_api.h>
 #include <Tests/THW_user/thw.h>
 #include <Plateform/thw_platform_console_io.h>
+#include <Plateform/thw_platform_time.h>
 #endif //MODE_THW
 /* USER CODE END Includes */
 
@@ -114,7 +115,9 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
 #ifdef MODE_THW
   // THW Tests initialization
-  THW_init(thw_platform_console_io_getInterface(), thw_main_setActive);
+  THW_init(	thw_platform_console_io_getInterface(),
+		    thw_platform_time_getInterface(),
+			 thw_main_setActive);
 #else
   // Nominal initialization
 

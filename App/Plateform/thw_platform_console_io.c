@@ -5,9 +5,6 @@
  *      Author: AurelienPajadon
  */
 
-/*
- * thw_platform_console_io.c
- */
 
 #include "thw_platform_console_io.h"
 #include "thw_platform_transport_uart.h"

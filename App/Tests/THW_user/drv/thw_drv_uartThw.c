@@ -23,7 +23,7 @@ static const char menuName[] = "Drv | Uart Ctrl Panel";
 
 static const st_thw_menuItem menuTab[] = {
 };
-static uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
+const static uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
 
 
 static void DisplayMenu(void);
@@ -33,32 +33,29 @@ static void RefreshFn(void);
 
 static uint8_t cpt = 0;
 
+// Menu instance
+static const st_thw_menu actual_menu =
+{
+    .menu.tab = menuTab,
+    .menu.size = menuTabSize,
+    .displayMenu = DisplayMenu,
+    .onInit = onInit,
+    .onExit = onExit,
+    .refreshFn = RefreshFn,
+    .refreshPeriodInMs = 100
+};
+
 //------------------------------------------------------------------------------
-// DESCRIPTION:         void thw_drv_uartThw_setActive(void*)
-// PARAMETERS:          void
-// RETURN VALUE:        void
-// DESIGN INFORMATION:
+/// \fn thw_drv_uartThw_setActive(void*)
+/// \brief
 //------------------------------------------------------------------------------
 void thw_drv_uartThw_setActive(void*)
 {
-	// Menu affiché
-    thw_actualMenu.menu.tab          = menuTab;
-    thw_actualMenu.menu.size         = menuTabSize;
-    thw_actualMenu.displayMenu       = DisplayMenu;
-    thw_actualMenu.onInit            = onInit;
-    thw_actualMenu.onExit            = onExit;
-	thw_actualMenu.refreshFn = 		RefreshFn;
-	thw_actualMenu.refreshPeriodInMs = 50;
+	THW_setMenu(&actual_menu);
 }
 
-
-//*************************************************************************************************
-//*************************************************************************************************
-// 										CORE FUNCTIONS
-//*************************************************************************************************
-//*************************************************************************************************
 //------------------------------------------------------------------------------
-/// \fn 		void thw_drv_uartThw_DisplayMenu(void)
+/// \fn 		void DisplayMenu(void)
 /// \brief
 //------------------------------------------------------------------------------
 static void DisplayMenu(void)

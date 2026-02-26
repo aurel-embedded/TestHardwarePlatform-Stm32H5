@@ -16,6 +16,7 @@
 
 static const char menuName[] = "Cmp";
 
+
 //------------------------------------------------------------------------------
 // Local constants
 //------------------------------------------------------------------------------
@@ -26,33 +27,39 @@ static const st_thw_menuItem menuTab[] = {
 };
 
 
-static uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
+static const uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
 
 
 static void DisplayMenu(void);
+static void onInit(void);
 static void onExit(void);
 
+// Menu instance
+static const st_thw_menu actual_menu =
+{
+    .menu.tab = menuTab,
+    .menu.size = menuTabSize,
+    .displayMenu = DisplayMenu,
+    .onInit = onInit,
+    .onExit = onExit,
+    .refreshFn = NULL,
+    .refreshPeriodInMs = 100
+};
+
+
 //------------------------------------------------------------------------------
-// DESCRIPTION:         void thw_cmp_setActive(void*)
-// PARAMETERS:          void
-// RETURN VALUE:        void
-// DESIGN INFORMATION:
+/// \fn thw_cmp_setActive(void*)
+/// \brief
 //------------------------------------------------------------------------------
 void thw_cmp_setActive(void*)
 {
-	// Menu affiché
-    thw_actualMenu.menu.tab          = menuTab;
-    thw_actualMenu.menu.size         = menuTabSize;
-    thw_actualMenu.displayMenu       = DisplayMenu;
-    thw_actualMenu.onExit            = onExit;
+	THW_setMenu(&actual_menu);
 }
 
 
 //------------------------------------------------------------------------------
-// DESCRIPTION:         void thw_cmp_DisplayMenu(void)
-// PARAMETERS:          void
-// RETURN VALUE:        void
-// DESIGN INFORMATION:
+/// \fn 		void DisplayMenu(void)
+/// \brief
 //------------------------------------------------------------------------------
 static void DisplayMenu(void)
 {
@@ -60,6 +67,14 @@ static void DisplayMenu(void)
 	THW_Banner(menuName);
 	THW_printf("\r\n");
 
+}
+
+//------------------------------------------------------------------------------
+/// \fn     static void onInit(void)
+/// \brief  Actions performed when entering the test menu.
+//------------------------------------------------------------------------------
+static void onInit(void)
+{
 }
 
 //------------------------------------------------------------------------------

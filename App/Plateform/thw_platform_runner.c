@@ -14,14 +14,14 @@
 #include <Tests/THW_user/thw.h>
 
 #define THW_PLATFORM_RUNNER__PRIO 			(osPriority_t)osPriorityNormal
-#define THW_PLATFORM_RUNNER__STACK 			(128 * 32)
+#define THW_PLATFORM_RUNNER__STACK 			(2048)
 
 //-----------------------------------------------------------------------------
 // THREAD RX
 //-----------------------------------------------------------------------------
 osThreadId_t thw_platform_runner_taskId;
 const osThreadAttr_t thw_platform_runner_taskAttr = {
-		.name = "thw_tsk",
+		.name = "thw_platform_runner_tsk",
 		.stack_size = 	THW_PLATFORM_RUNNER__STACK,
 		.priority = 	THW_PLATFORM_RUNNER__PRIO,
 };
@@ -36,7 +36,7 @@ static void thw_task(void *arg)
     while (1)
     {
         THW_process();
-        osDelay(100);
+        osDelay(10);
     }
 }
 
@@ -44,15 +44,32 @@ static void thw_task(void *arg)
 /// \fn     void thw_platform_start(void)
 /// \brief  THW main task initialization and start
 //-----------------------------------------------------------------------------
-void thw_platform_start(void)
+thw_status_t thw_platform_start(void)
 {
 	// Get Dependencies
     thw_io_if_t* io   = thw_platform_console_io_getInterface();
     thw_time_if_t* t  = thw_platform_time_getInterface();
 
+    // Check dependencies
+    if (io == NULL)
+    {
+    	return THW_STATUS_IO_ERROR;
+    }
+    if (t == NULL)
+    {
+    	return THW_STATUS_TIME_ERROR;
+    }
+
     // Initialize THW with platform dependencies and entry point
-    THW_init(io, t, thw_main_setActive);
+    if(THW_init(io, t, thw_main_setActive) != THW_STATUS_OK)
+	{
+		return THW_STATUS_ERROR;
+	}
 
     // Create and start THW main task
-    osThreadNew(thw_task, NULL, &thw_platform_runner_taskAttr);
+    if(osThreadNew(thw_task, NULL, &thw_platform_runner_taskAttr) == NULL)
+	{
+		return THW_STATUS_ERROR;
+	}
+    return THW_STATUS_OK;
 }

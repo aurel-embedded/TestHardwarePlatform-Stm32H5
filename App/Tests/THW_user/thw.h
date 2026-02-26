@@ -56,6 +56,6 @@ extern void THW_PGM_ResetResults(void);
 extern void THW_PGM_PrintSummary(void);
 extern bool THW_PGM_Assert(bool condition, const char *testName, const char *message);
 
-const st_thw_actualMenu* thw_cmp_gui_getMenuDescription(void);
+const st_thw_menu* thw_cmp_gui_getMenuDescription(void);
 
 #endif /* THW_THW_H_ */

@@ -27,32 +27,38 @@ static const st_thw_menuItem menuTab[] = {
 		{.name = "Components", 			.pActionFn = thw_cmp_setActive, 	.info = 0},
 };
 
-static uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
+static const uint16_t menuTabSize = sizeof(menuTab) / sizeof(st_thw_menuItem);
 
 
 static void DisplayMenu(void);
+static void onInit(void);
 static void onExit(void);
 
+// Menu instance
+static const st_thw_menu actual_menu =
+{
+    .menu.tab = menuTab,
+    .menu.size = menuTabSize,
+    .displayMenu = DisplayMenu,
+    .onInit = onInit,
+    .onExit = onExit,
+    .refreshFn = NULL,
+    .refreshPeriodInMs = 100
+};
+
 //------------------------------------------------------------------------------
-// DESCRIPTION:         void thw_MainMenu_setActive(void*)
-// PARAMETERS:          void
-// RETURN VALUE:        void
-// DESIGN INFORMATION:
+/// \fn thw_drv_uartThw_setActive(void*)
+/// \brief
 //------------------------------------------------------------------------------
 void thw_main_setActive(void*)
 {
-	// Menu affiché
-    thw_actualMenu.menu.tab          = menuTab;
-    thw_actualMenu.menu.size         = menuTabSize;
-    thw_actualMenu.displayMenu       = DisplayMenu;
-    thw_actualMenu.onExit            = onExit;
+	THW_setMenu(&actual_menu);
 }
 
+
 //------------------------------------------------------------------------------
-// DESCRIPTION:         void thw_MainMenu_DisplayMenu(void)
-// PARAMETERS:          void
-// RETURN VALUE:        void
-// DESIGN INFORMATION:
+/// \fn 		void DisplayMenu(void)
+/// \brief
 //------------------------------------------------------------------------------
 static void DisplayMenu(void)
 {
@@ -62,6 +68,13 @@ static void DisplayMenu(void)
 
 }
 
+//------------------------------------------------------------------------------
+/// \fn     static void onInit(void)
+/// \brief  Actions performed when entering the test menu.
+//------------------------------------------------------------------------------
+static void onInit(void)
+{
+}
 
 //------------------------------------------------------------------------------
 /// \fn     static void onExit(void)
